@@ -14,8 +14,12 @@ class CreateOutletsTable extends Migration
     public function up()
     {
         Schema::create('outlets', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id('id');
+            $table->string('nama', 100);
+            $table->text('alamat');
+            $table->string('tlp', 15);
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
 
