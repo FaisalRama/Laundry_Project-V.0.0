@@ -8,4 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class paket extends Model
 {
     use HasFactory;
+
+    public $incrementing = true;
+    protected $table = 'tb_paket';
+    protected $fillable = ['id_outlet', 
+                            'jenis', 
+                            'nama_paket', 
+                            'harga'];
+
+    // Relasi dengan TB_Outlet
+    public function outlet(){
+        return $this -> belongsTo(tb_outlet::class, "id_outlet");
+    }
 }
