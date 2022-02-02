@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\member;
 use App\Http\Requests\StorememberRequest;
 use App\Http\Requests\UpdatememberRequest;
+use Illuminate\Http\Request;
 
 class MemberController extends Controller
 {
@@ -15,7 +16,9 @@ class MemberController extends Controller
      */
     public function index()
     {
-        //
+        return view('member/index' , [
+            'member' => member::all()
+        ]);
     }
 
     /**
@@ -34,9 +37,19 @@ class MemberController extends Controller
      * @param  \App\Http\Requests\StorememberRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorememberRequest $request)
+    public function store(Request $request)
     {
-        //
+        // Validasi
+        $validated = $request->validate([
+            'nama' => 'required',
+            'alamat' => 'required',
+            'jenis_kelamin' => 'required',
+            'tlp' => 'required'
+        ]);
+
+        $input = member::create($validated);
+
+        if($input) return redirect('#')->with('success', 'Data Berhasil Ditambahkan!');
     }
 
     /**
@@ -68,9 +81,19 @@ class MemberController extends Controller
      * @param  \App\Models\member  $member
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatememberRequest $request, member $member)
+    public function update(Request $request, $id)
     {
-        //
+        $rules = $request->validate([
+            'nama' => 'required',
+            'alamat' => 'required',
+            'jenis_kelamin' => 'required',
+            'tlp' => 'required'
+        ]);
+
+        $update = member::find($id)->update($rules);
+            if($update){
+                return redirect('member')->with('success', 'Data Produk Berhasil Diubah!');
+            }
     }
 
     /**
@@ -79,8 +102,9 @@ class MemberController extends Controller
      * @param  \App\Models\member  $member
      * @return \Illuminate\Http\Response
      */
-    public function destroy(member $member)
+    public function destroy($id)
     {
-        //
+        member::find($id)->delete();
+        return redirect('member')->with('success', 'Product Has Been Deleted');
     }
 }
