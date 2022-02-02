@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\outlet;
 use App\Http\Requests\StoreoutletRequest;
 use App\Http\Requests\UpdateoutletRequest;
+use Illuminate\Http\Request;
 
 class OutletController extends Controller
 {
@@ -15,7 +16,9 @@ class OutletController extends Controller
      */
     public function index()
     {
-        //
+        return view('outlet/index' , [
+            'outlet' => outlet::all()
+        ]);
     }
 
     /**
@@ -34,9 +37,18 @@ class OutletController extends Controller
      * @param  \App\Http\Requests\StoreoutletRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreoutletRequest $request)
+    public function store(Request $request)
     {
-        //
+        // Validasi
+        $validated = $request->validate([
+            'nama' => 'required',
+            'alamat' => 'required',
+            'tlp' => 'required'
+        ]);
+
+        $input = outlet::create($validated);
+
+        if($input) return redirect('#')->with('success', 'Data Berhasil Ditambahkan!');
     }
 
     /**
@@ -68,9 +80,10 @@ class OutletController extends Controller
      * @param  \App\Models\outlet  $outlet
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateoutletRequest $request, outlet $outlet)
+    public function update(Request $request, $id)
     {
-        //
+        outlet::find($id)->update($request->all());
+        return redirect('outlet')->with('success', 'Data Produk Berhasil Diubah!');  //
     }
 
     /**
@@ -79,8 +92,9 @@ class OutletController extends Controller
      * @param  \App\Models\outlet  $outlet
      * @return \Illuminate\Http\Response
      */
-    public function destroy(outlet $outlet)
+    public function destroy($id)
     {
-        //
+        outlet::find($id)->delete();
+        return redirect('outlet')->with('success', 'Product Has Been Deleted');
     }
 }
