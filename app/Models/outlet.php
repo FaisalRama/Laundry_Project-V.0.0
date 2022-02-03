@@ -14,4 +14,9 @@ class outlet extends Model
     protected $fillable = ['nama', 
                             'alamat', 
                             'tlp'];
+
+    public function paket(){
+        return $this->belongsTo(paket::class);
+    }
+
 }

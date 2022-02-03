@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\paket;
+use App\Models\outlet;
 use App\Http\Requests\StorepaketRequest;
 use App\Http\Requests\UpdatepaketRequest;
+use Illuminate\Http\Request;
 
 class PaketController extends Controller
 {
@@ -15,7 +17,10 @@ class PaketController extends Controller
      */
     public function index()
     {
-        //
+        return view('Paket/index' , [
+            'paket' => paket::all(),
+            'outlet' => outlet::all()
+        ]);
     }
 
     /**
@@ -34,9 +39,19 @@ class PaketController extends Controller
      * @param  \App\Http\Requests\StorepaketRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorepaketRequest $request)
+    public function store(Request $request)
     {
-        //
+        // Validasi
+        $validated = $request->validate([
+            'id_outlet' => 'required',
+            'jenis' => 'required',
+            'nama_paket' => 'required',
+            'harga' => 'required'
+        ]);
+
+        $input = paket::create($validated);
+
+        if($input) return redirect('#')->with('success', 'Data Berhasil Ditambahkan!');
     }
 
     /**
@@ -68,9 +83,10 @@ class PaketController extends Controller
      * @param  \App\Models\paket  $paket
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatepaketRequest $request, paket $paket)
+    public function update(Request $request,  $id)
     {
-        //
+        paket::find($id)->update($request->all());
+        return redirect('paket')->with('success', 'Data paket Berhasil Diubah!'); 
     }
 
     /**
@@ -79,8 +95,9 @@ class PaketController extends Controller
      * @param  \App\Models\paket  $paket
      * @return \Illuminate\Http\Response
      */
-    public function destroy(paket $paket)
+    public function destroy($id)
     {
-        //
+        paket::find($id)->delete();
+        return redirect('paket')->with('success', 'Product Has Been Deleted');
     }
 }

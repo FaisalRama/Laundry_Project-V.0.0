@@ -10,7 +10,7 @@ class paket extends Model
     use HasFactory;
 
     public $incrementing = true;
-    protected $table = 'tb_paket';
+    protected $table = 'pakets';
     protected $fillable = ['id_outlet', 
                             'jenis', 
                             'nama_paket', 
@@ -18,6 +18,6 @@ class paket extends Model
 
     // Relasi dengan TB_Outlet
     public function outlet(){
-        return $this -> belongsTo(tb_outlet::class, "id_outlet");
+        return $this -> belongsTo(outlet::class, "id_outlet");
     }
 }
