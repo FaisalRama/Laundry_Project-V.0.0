@@ -130,8 +130,8 @@
 
                         <form action="/logout" method="POST">
                           @csrf
-                          <button type="submit" class="border-0">
-                              <i class="fa fa-sign-out pull-right">Log Out</i>
+                          <button type="submit" class="border-0 dropdown-item" >
+                              Log Out <i class="fa fa-sign-out"></i>
                           </button>
                         </form>
 

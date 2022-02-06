@@ -1,4 +1,4 @@
-
+{{-- Login --}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,8 +28,21 @@ a.dataLayer=a.dataLayer||[],a.zaraz.track=(e,t)=>{for(key in a.zarazData.tracks.
 <div class="login_wrapper">
 <div class="animate form login_form">
 <section class="login_content">
-<form action="/" method="POST">
+
+    {{-- FORM LOGIN --}}
+<form action="/auth" method="POST">
     @csrf
+
+    {{-- Notification --}}
+    @if(session()->has('success'))
+        <div class="alert alert-primary alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endif
+
 <h1>Login Form</h1>
 <div>
 <input name="email" type="text" class="form-control" placeholder="Email" required />
@@ -57,21 +70,75 @@ a.dataLayer=a.dataLayer||[],a.zaraz.track=(e,t)=>{for(key in a.zarazData.tracks.
 </form>
 </section>
 </div>
+
+{{-- Register --}}
 <div id="register" class="animate form registration_form">
 <section class="login_content">
-<form>
+<form action="/" method="POST">
+    @csrf
 <h1>Create Account</h1>
 <div>
-<input type="text" class="form-control" placeholder="Username" required="" />
+    <input type="text" name="name" id="name" 
+    class="form-control @error('name') is-invalid @enderror" placeholder="Name" value="{{ old('name') }}" />
+    @error('name')
+        <div class="invalid-feedback">
+            Please fill in the name first!
+        </div>
+    @enderror
 </div>
 <div>
-<input type="email" class="form-control" placeholder="Email" required="" />
+    <input type="text" name="username" id="username" 
+    class="form-control @error('username') is-invalid @enderror" placeholder="Username" value="{{ old('username') }}" />
+    @error('username')
+        <div class="invalid-feedback">
+            the username cannot be less than 3 and more than 300
+        </div>
+    @enderror
 </div>
 <div>
-<input type="password" class="form-control" placeholder="Password" required="" />
+    <input type="email" name="email" id="email" 
+    class="form-control @error('email') is-invalid @enderror" placeholder="Email" value="{{ old('email') }}" />
+    @error('email')
+        <div class="invalid-feedback">
+            {{ $message }}
+        </div>
+    @enderror
 </div>
 <div>
-<a class="btn btn-default submit" href="index.html">Submit</a>
+    <input type="password" name="password" id="password" 
+    class="form-control @error('password') is-invalid @enderror" placeholder="Password" />
+    @error('password')
+        <div class="invalid-feedback">
+            The password cannot be less than 5 and more than 100
+        </div>
+    @enderror
+</div>
+<div>
+    <input type="text" name="outlet_id" id="outlet_id" 
+    class="form-control @error('outlet_id') is-invalid @enderror" placeholder="outlet_id" />
+    @error('outlet_id')
+        <div class="invalid-feedback">
+            the outlet_id is required
+        </div>
+    @enderror
+</div>
+<div>
+    <select id="role" name="role" required="required" class="form-control @error('role') is-invalid @enderror" 
+    placeholder="role"  >
+        <option selected disabled >Pilih Role Anda !</option>
+        <option value="admin">admin</option>
+        <option value="kasir">kasir</option>
+        <option value="owner">owner</option>
+    </select>
+    @error('role')
+        <div class="invalid-feedback">
+            Just choose 1 role
+        </div>
+    @enderror
+</div>
+<br>
+<div>
+    <button type="submit" class="btn btn-default submit">Submit</button>
 </div>
 <div class="clearfix"></div>
 <div class="separator">
@@ -92,4 +159,4 @@ a.dataLayer=a.dataLayer||[],a.zaraz.track=(e,t)=>{for(key in a.zarazData.tracks.
 </div>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v652eace1692a40cfa3763df669d7439c1639079717194" integrity="sha512-Gi7xpJR8tSkrpF7aordPZQlW2DLtzUlZcumS8dMQjwDHEnw9I7ZLyiOj/6tZStRBGtGgN6ceN6cMH8z7etPGlw==" data-cf-beacon='{"rayId":"6d8202e6c9333591","token":"cd0b4b3a733644fc843ef0b185f98241","version":"2021.12.0","si":100}' crossorigin="anonymous"></script>
 </body>
-</html>
+</html> 
