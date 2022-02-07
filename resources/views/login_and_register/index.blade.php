@@ -34,6 +34,7 @@ a.dataLayer=a.dataLayer||[],a.zaraz.track=(e,t)=>{for(key in a.zarazData.tracks.
     @csrf
 
     {{-- Notification --}}
+    {{-- If Success Regist --}}
     @if(session()->has('success'))
         <div class="alert alert-primary alert-dismissible fade show" role="alert">
             {{ session('success') }}
@@ -43,9 +44,25 @@ a.dataLayer=a.dataLayer||[],a.zaraz.track=(e,t)=>{for(key in a.zarazData.tracks.
     </div>
     @endif
 
+    {{-- If Failed to Login --}}
+    @if(session()->has('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endif
+
 <h1>Login Form</h1>
 <div>
-<input name="email" type="text" class="form-control" placeholder="Email" required />
+    <input name="email" id="email" type="text" placeholder="name@example.com" required 
+    class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" />
+    @error('email')
+        <div class="invalid-feedback">
+            {{ $message }}
+        </div>
+    @enderror
 </div>
 <div>
 <input name="password" type="password" class="form-control" placeholder="Password" required />
@@ -63,8 +80,8 @@ a.dataLayer=a.dataLayer||[],a.zaraz.track=(e,t)=>{for(key in a.zarazData.tracks.
 <div class="clearfix"></div>
 <br />
 <div>
-<h1><i class="fa fa-paw"></i> Gentelella Alela!</h1>
-<p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
+<h1><i class="fa fa-paw"></i> SaLaundry V.0.0 </h1>
+<p>©2022 All Rights Reserved. SaLaundry is the best Laundry on Cianjur. Privacy and Terms</p>
 </div>
 </div>
 </form>
