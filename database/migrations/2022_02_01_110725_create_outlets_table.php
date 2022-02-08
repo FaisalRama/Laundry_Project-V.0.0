@@ -17,7 +17,7 @@ class CreateOutletsTable extends Migration
             $table->id('id');
             $table->string('nama', 100);
             $table->text('alamat');
-            $table->string('tlp', 15);
+            $table->string('tlp', 20);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

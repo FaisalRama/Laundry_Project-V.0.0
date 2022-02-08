@@ -47,7 +47,7 @@
                     data-harga="{{ $pk->harga }}" ><a>UPDATE</a></button>
                     
                     <!-- Delete Data -->
-                    <form action="{{ route('paket.destroy', $pk->id) }}" method="POST" style="display: inline">
+                    <form action="/{{ request()->segment(1) }}/paket/{{ $pk->id }}" method="POST" style="display: inline">
                      @csrf
                     @method('DELETE')
                     <button class="btn delete-paket btn-danger" type="button">DELETE</button> &nbsp;
